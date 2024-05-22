@@ -9,10 +9,10 @@ def create_connection():
     # scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     # with st.secrets():
     #     # Load the JSON file
-    credentials_json = st.secrets["secrets.toml"]
+    # credentials_json = st.secrets["secrets.toml"]
     client_email = secrets["credentials"]["client_email"]
     private_key = secrets["credentials"]["private_key"]
-    creds = Credentials.from_service_account_file(credentials_json, scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"])
+    creds = Credentials.from_service_account_file(client_email, scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"])
     client = gspread.authorize(creds)
     return client
 
