@@ -4,6 +4,11 @@ from datetime import date as dt
 import gspread
 from google.oauth2.service_account import Credentials
 
+def get_last_id(sheet):
+    # Get all values in the ID column
+    ids = sheet.col_values(1)
+    # Return the last ID, or 0 if the sheet is empty
+    return int(ids[-1]) if ids else 0
 # Setup Google Sheets connection
 def create_connection():
     # scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -33,18 +38,23 @@ def create_connection():
 # Function to insert godown data into the Google Sheets
 def insert_godown(sheet, godown_name, from_, date, contractor):
     try:
-        godown_data = [godown_name, from_, str(date), contractor]
-        sheet.append_row(godown_data)
+        last_id = get_last_id(sheet)
+        new_id = last_id + 1
+        new_row = [new_id, godown_name, from_, str(date), contractor]
+        # godown_data = [godown_name, from_, str(date), contractor]
+        sheet.append_row(new_row)
         st.session_state.godown_id = sheet.row_count
         st.success("Godown data inserted successfully")
     except Exception as e:
         st.error(f"Failed to insert data into Google Sheets: {e}")
 
 # Function to insert bundle data into the Google Sheets
-def insert_bundle(sheet, al_size, steel_size, al_percent, steel_percent, weight, is_alloy):
+def insert_bundle(sheet,godown_id, al_size, steel_size, al_percent, steel_percent, weight, is_alloy):
     try:
+        last_id = get_last_id(sheet)
+        new_id = last_id + 1
         is_alloy_int = 1 if is_alloy == 'YES' else 0
-        bundle_data = [st.session_state.godown_id, al_size, steel_size, al_percent, steel_percent, weight, is_alloy_int]
+        bundle_data = [last_id,godown_id, al_size, steel_size, al_percent, steel_percent, weight, is_alloy_int]
         sheet.append_row(bundle_data)
         st.success("Bundle data inserted successfully")
     except Exception as e:
@@ -120,9 +130,13 @@ else:
             steel_percentage = (csa_steel / (csa_al + csa_steel)) * 100
         print(al_percentage)
         submitted = st.form_submit_button("Submit")
+        spreadsheet1 = client.open_by_key(spreadsheet_id1)
+        godown_sheet = spreadsheet1.worksheet("Godown")
+        last_id = get_last_id(godown_sheet)
+        new_id = last_id + 1
 
         if submitted:
-            insert_bundle(bundle_sheet, al_size, steel_size, al_percentage, steel_percentage, weight, is_alloy)
+            insert_bundle(bundle_sheet,new_id, al_size, steel_size, al_percentage, steel_percentage, weight, is_alloy)
 
     if st.button("Start New Godown Entry"):
         st.session_state.godown_id = None
