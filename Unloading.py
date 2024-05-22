@@ -145,6 +145,9 @@ else:
 def fetch_and_display_data():
     try:
         # Fetch all data from both sheets
+        client = create_connection()
+        spreadsheet_id1 = '1AwIlfvydwBGCOJaOjuhahG3Q3wHFh5K3xubZp2cFe_A'  # Replace with your actual spreadsheet ID
+        spreadsheet_id2='1HMke9Dku8Kt7tEFFuKdjRgY5RAGZhnZM2OkOhkTMCHQ'
         spreadsheet1 = client.open_by_key(spreadsheet_id1)
         godown_sheet = spreadsheet1.worksheet("Godown")
         spreadsheet2 = client.open_by_key(spreadsheet_id2)
