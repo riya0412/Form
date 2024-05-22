@@ -10,10 +10,24 @@ def create_connection():
     # with st.secrets():
     #     # Load the JSON file
     # credentials_json = st.secrets["secrets.toml"]
-    client_email = st.secrets["credentials"]["client_email"]
-    private_key = st.secrets["credentials"]["private_key"]
-    creds = Credentials.from_service_account_file(client_email, scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"])
+    service_account_info = {
+            "type": st.secrets["google_service_account"]["type"],
+            "project_id": st.secrets["google_service_account"]["project_id"],
+            "private_key_id": st.secrets["google_service_account"]["private_key_id"],
+            "private_key": st.secrets["google_service_account"]["private_key"],
+            "client_email": st.secrets["google_service_account"]["client_email"],
+            "client_id": st.secrets["google_service_account"]["client_id"],
+            "auth_uri": st.secrets["google_service_account"]["auth_uri"],
+            "token_uri": st.secrets["google_service_account"]["token_uri"],
+            "auth_provider_x509_cert_url": st.secrets["google_service_account"]["auth_provider_x509_cert_url"],
+            "client_x509_cert_url": st.secrets["google_service_account"]["client_x509_cert_url"]
+            "universe_domain": "googleapis.com"
+        }
+        
+    # Use the service account info to create credentials
+    creds = Credentials.from_service_account_info(service_account_info)
     client = gspread.authorize(creds)
+
     return client
 
 # Function to insert godown data into the Google Sheets
