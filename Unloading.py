@@ -43,7 +43,7 @@ def insert_godown(sheet, godown_name, from_, date, contractor):
 # Function to insert bundle data into the Google Sheets
 def insert_bundle(sheet, al_size, steel_size, al_percent, steel_percent, weight, is_alloy):
     try:
-        is_alloy_int = 1 if is_alloy == 'Y' else 0
+        is_alloy_int = 1 if is_alloy == 'YES' else 0
         bundle_data = [st.session_state.godown_id, al_size, steel_size, al_percent, steel_percent, weight, is_alloy_int]
         sheet.append_row(bundle_data)
         st.success("Bundle data inserted successfully")
@@ -106,7 +106,7 @@ else:
         al_size = st.number_input("Al size :")
         steel_size = st.number_input("Steel size ")
         weight = st.number_input("Weight of the bundle", min_value=0.0)
-        is_alloy = st.selectbox("Is alloy?", ("Y", "N"))
+        is_alloy = st.selectbox("Is alloy?", ("YES", "NO"))
 
         al_percentage = 0
         steel_percentage = 0
