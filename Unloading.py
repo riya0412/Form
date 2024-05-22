@@ -131,6 +131,10 @@ else:
 def fetch_and_display_data():
     try:
         # Fetch all data from both sheets
+        spreadsheet1 = client.open_by_key(spreadsheet_id1)
+        godown_sheet = spreadsheet1.worksheet("Godown")
+        spreadsheet2 = client.open_by_key(spreadsheet_id2)
+        bundle_sheet = spreadsheet2.worksheet("Unloading")
         godown_data = godown_sheet.get_all_records()
         bundle_data = bundle_sheet.get_all_records()
 
