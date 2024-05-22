@@ -25,7 +25,7 @@ def create_connection():
         }
         
     # Use the service account info to create credentials
-    creds = Credentials.from_service_account_info(service_account_info)
+    creds = Credentials.from_service_account_info(service_account_info, scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"])
     client = gspread.authorize(creds)
 
     return client
