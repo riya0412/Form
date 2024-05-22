@@ -20,7 +20,7 @@ def create_connection():
             "auth_uri": st.secrets["google_service_account"]["auth_uri"],
             "token_uri": st.secrets["google_service_account"]["token_uri"],
             "auth_provider_x509_cert_url": st.secrets["google_service_account"]["auth_provider_x509_cert_url"],
-            "client_x509_cert_url": st.secrets["google_service_account"]["client_x509_cert_url"]
+            "client_x509_cert_url": st.secrets["google_service_account"]["client_x509_cert_url"],
             "universe_domain": "googleapis.com"
         }
         
