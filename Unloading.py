@@ -148,16 +148,16 @@ def fetch_and_display_data():
         client = create_connection()
         spreadsheet_id1 = '1AwIlfvydwBGCOJaOjuhahG3Q3wHFh5K3xubZp2cFe_A'  # Replace with your actual spreadsheet ID
         spreadsheet_id2='1HMke9Dku8Kt7tEFFuKdjRgY5RAGZhnZM2OkOhkTMCHQ'
-        spreadsheet1 = client.open_by_key(spreadsheet_id1)
-        godown_sheet = spreadsheet1.worksheet("Godown")
-        spreadsheet2 = client.open_by_key(spreadsheet_id2)
-        bundle_sheet = spreadsheet2.worksheet("Unloading")
-        godown_data = godown_sheet.get_all_records()
-        bundle_data = bundle_sheet.get_all_records()
+        spreadsheet_1 = client.open_by_key(spreadsheet_id1)
+        godown_sheet1 = spreadsheet_1.worksheet("Godown")
+        spreadsheet_2 = client.open_by_key(spreadsheet_id2)
+        bundle_sheet2 = spreadsheet_2.worksheet("Unloading")
+        godown_data1 = godown_sheet1.get_all_records()
+        bundle_data2 = bundle_sheet2.get_all_records()
 
         # Convert to dataframes
-        godown_df = pd.DataFrame(godown_data)
-        bundle_df = pd.DataFrame(bundle_data)
+        godown_df = pd.DataFrame(godown_data1)
+        bundle_df = pd.DataFrame(bundle_data2)
 
         # Merge dataframes on Godown ID
         merged_df = bundle_df.merge(godown_df, left_on='Godwon_id', right_on='Id', suffixes=('_bundle', '_godown'))
