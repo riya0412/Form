@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import mysql.connector
-
+from streamlit_option_menu import option_menu
 def SizeCalculatorinches():
     # Title of the app
     st.title("Conductor Cost Calculator")
@@ -295,3 +295,30 @@ def RodCost():
     results_df = pd.DataFrame(results)
 
     st.table(results_df)
+st.title("CALCULATOR")
+# Get user input for diameter in inches
+with st.sidebar:
+    # st.sidebar.image("data/Kuber_logo.jpeg",caption="")
+    selected=option_menu(
+        menu_title="Calculators",
+        options=["Size/Cost Calculator Inches","Size/Cost Calculator MM","SWG To Diameter and Area","Diameter to SWG","Number of Layers","Rod Cost"],
+        icons=["calculator","calculator","calculator","calculator","calculator","calculator"],
+        menu_icon="cast",
+        default_index=0
+    )
+if selected=="Size/Cost Calculator Inches":
+    #st.subheader(f"Page: {selected}")
+    SizeCalculatorinches()
+    # graphs()
+elif selected=="Size/Cost Calculator MM":
+    #st.subheader(f"Page: {selected}")
+    SizeCalculatorMM()
+    # graphs()
+elif selected=="SWG To Diameter and Area":
+    SWG_to_DA()
+elif selected=="Diameter to SWG":
+    Dia_to_SWG()
+elif selected=="Number of Layers":
+    layers()
+elif selected=="Rod Cost":
+    RodCost()
