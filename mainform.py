@@ -1,5 +1,14 @@
 import streamlit as st
 
+# calculator
+st.sidebar.title("Main")
+calculator_button = st.sidebar.button("Open Calculator")
+
+if calculator_button:
+    js = "window.open('https://calculatorkuber.streamlit.app/')"
+    html = f"<script>{js}</script>"
+    st.components.v1.html(html)
+    
 # Sidebar for navigation
 st.sidebar.title("Form Navigation")
 option = st.sidebar.selectbox("Choose a form to display", ["Attendance Form", "Unloading Form", "Loading Form"])
