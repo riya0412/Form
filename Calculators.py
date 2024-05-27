@@ -2,6 +2,21 @@ import streamlit as st
 import pandas as pd
 import mysql.connector
 from streamlit_option_menu import option_menu
+from datetime import date as dt
+import gspread
+from google.oauth2.service_account import Credentials
+def create_connection():
+    # scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    # with st.secrets():
+    #     # Load the JSON file
+    # credentials_json = st.secrets["secrets.toml"]
+        
+    # Use the service account info to create credentials
+    credentials = Credentials.from_service_account_info(st.secrets["google_service_account"], scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"])
+    # creds = Credentials.from_service_account_info(service_account_info, scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"])
+    client = gspread.authorize(credentials)
+
+    return client
 def SizeCalculatorinches():
     # Title of the app
     st.title("Conductor Cost Calculator")
@@ -184,14 +199,22 @@ def SWG_to_DA():
 
     # Input fields
     st.header("Input Parameter")
+    client = create_connection()
+    spreadsheet_id = '19PAs-GvIaukzYeDRkCxsuys7rmnvovhJjhPNKVfdAK4' 
+
+    try:
+        spreadsheet1 = client.open_by_key(spreadsheet_id)
+        SWG_sheet = spreadsheet1.worksheet("swg")
+    except gspread.SpreadsheetNotFound:
+        st.error("Spreadsheet not found. Check the ID or permissions.")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
 
     SWG = st.number_input("Enter the SWG Gauge Value", value=0)
-    conn=mysql.connector.connect(host='localhost',port="3306",user='root',passwd='Pars@0412',db='Kuber_Inventory')
-    c=conn.cursor()
-    query=f"SELECT Diameter_inches FROM SWG WHERE SWG = %s"
-    c.execute(query,(SWG,))
-    result=c.fetchone()
-    Diameter=result[0]
+    data = SWG_sheet.get_all_records()
+    for row in data:
+        if row['SWG'] == SWG:
+            Diameter= row['Diameter_inches']
     print(Diameter)
     Diameter_inches="%.4f" % float(Diameter)
     print(Diameter_inches)
@@ -209,22 +232,30 @@ def SWG_to_DA():
 
 def Dia_to_SWG():
     st.title("Diameter To SWG Calculator")
-    def get_closest_swg(diameter):
-        conn=mysql.connector.connect(host='localhost',port="3306",user='root',passwd='Pars@0412',db='Kuber_Inventory')
-        c=conn.cursor()
-        c.execute("SELECT SWG, Diameter_inches FROM SWG")
-        swg_data = c.fetchall()
+    client = create_connection()
+    spreadsheet_id = '19PAs-GvIaukzYeDRkCxsuys7rmnvovhJjhPNKVfdAK4' 
+
+    try:
+        spreadsheet1 = client.open_by_key(spreadsheet_id)
+        SWG_sheet = spreadsheet1.worksheet("swg")
+    except gspread.SpreadsheetNotFound:
+        st.error("Spreadsheet not found. Check the ID or permissions.")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+    def get_closest_swg(diameter,SWG_sheet):
+        swg_data = SWG_sheet.get_all_records()
         
         closest_swg = None
         min_diff = float('inf')
         
-        for swg, dia in swg_data:
+        for row in swg_data:
+            swg = row['SWG']
+            dia = row['Diameter_inches']
             diff = abs(float(dia) - diameter)
             if diff < min_diff:
                 min_diff = diff
                 closest_swg = swg
         
-        conn.close()
         return closest_swg, min_diff
 
     # Input fields
@@ -236,7 +267,7 @@ def Dia_to_SWG():
                 st.header("Input Parameter")
                 Diameter_mm = st.number_input("Enter the Diameter in mm", value=0.01)
                 Diameter_inches=Diameter_mm/25.4
-                SWG,Diff=get_closest_swg(Diameter_inches)
+                SWG,Diff=get_closest_swg(Diameter_inches,SWG_sheet)
                 SWGCalculator = pd.DataFrame({
                     "Diameter(mm)" : [Diameter_mm],
                     "Diameter(inches)": [Diameter_inches],
@@ -249,7 +280,7 @@ def Dia_to_SWG():
                 st.header("Input Parameter")
                 Diameter_inches = st.number_input("Enter the Diameter in inches", value=0.01)
                 Diameter_mm=Diameter_inches*25.4
-                SWG,Diff=get_closest_swg(Diameter_inches)
+                SWG,Diff=get_closest_swg(Diameter_inches,SWG_sheet)
                 SWGCalculator = pd.DataFrame({
                     "Diameter(mm)" : [Diameter_mm],
                     "Diameter(inches)": [Diameter_inches],
