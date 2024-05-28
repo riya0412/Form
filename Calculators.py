@@ -88,11 +88,11 @@ def SizeCalculatorinches():
 
     st.table(total_suggested_csa_result)
 
-    Unloading=cost_of_conductor + 0.025* cost_of_conductor
-    Stranding = cost_of_conductor + 0.01* cost_of_conductor
-    Drawing_Welding= cost_of_conductor + 0.02* cost_of_conductor
-    Twisting=cost_of_conductor + 0.01* cost_of_conductor
-    Loading =cost_of_conductor + 0.025* cost_of_conductor
+    Unloading= 0.025* cost_of_conductor
+    Stranding =  0.01* cost_of_conductor
+    Drawing_Welding=  0.02* cost_of_conductor
+    Twisting=0.01* cost_of_conductor
+    Loading = 0.025* cost_of_conductor
     Description = {
         "Parameter": ["Supply Costs (in ₹)","Manufacturing Costs (in ₹)"],
         "Unloading Cost (in ₹)": [Unloading,Unloading],
@@ -176,11 +176,11 @@ def SizeCalculatorMM():
     
     st.table(total_suggested_csa_result)
 
-    Unloading=cost_of_conductor + 0.025* cost_of_conductor
-    Stranding = cost_of_conductor + 0.01* cost_of_conductor
-    Drawing_Welding= cost_of_conductor + 0.02* cost_of_conductor
-    Twisting=cost_of_conductor + 0.01* cost_of_conductor
-    Loading =cost_of_conductor + 0.025* cost_of_conductor
+    Unloading= 0.025* cost_of_conductor
+    Stranding = 0.01* cost_of_conductor
+    Drawing_Welding= 0.02* cost_of_conductor
+    Twisting= 0.01* cost_of_conductor
+    Loading = 0.025* cost_of_conductor
     Description = {
         "Parameter": ["Supply Costs (in ₹)","Manufacturing Costs (in ₹)"],
         "Unloading Cost (in ₹)": [Unloading,Unloading],
