@@ -9,6 +9,13 @@ def get_last_id(sheet):
     ids = sheet.col_values(1)
     # Return the last ID, or 0 if the sheet is empty
     return int(ids[-1]) if ids else 0
+
+# Function to delete the last row in the Google Sheet
+def delete_last_row(sheet):
+    last_row = len(sheet.get_all_values())
+    if last_row > 0:
+        sheet.delete_rows(last_row)
+        
 # Setup Google Sheets connection
 def create_connection():
     # scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -110,6 +117,11 @@ if st.session_state.godown_id is None:
 
         if submitted:
             insert_godown(godown_sheet, godown_name, From_, date, contractor)
+    if st.button("Reject Last Entry"):
+        godown_sheet = client.open_by_key(spreadsheet_id1).worksheet("Godown")
+        delete_last_row(godown_sheet)
+        st.session_state.godown_id = None
+        st.success("Last Godown entry rejected")
 else:
     st.title("Unloading Conductors - Bundle Details")
 
@@ -139,6 +151,11 @@ else:
         if submitted:
             insert_bundle(bundle_sheet,new_id, al_size, steel_size, al_percentage, steel_percentage, weight, is_alloy)
 
+    if st.button("Reject Last Entry"):
+        bundle_sheet = client.open_by_key(spreadsheet_id2).worksheet("Unloading")
+        delete_last_row(bundle_sheet)
+        st.success("Last Bundle entry rejected")
+        
     if st.button("Start New Godown Entry"):
         st.session_state.godown_id = None
 
