@@ -8,10 +8,7 @@ import pandas as pd
 def create_connection():
     try:
         connection = mysql.connector.connect(
-            host='localhost',
-            database='Kuber_Inventory',
-            user='root',
-            password='Pars@0412'
+            host='kuber.mysql.database.azure.com',port="3306",user='kuber',passwd='Pars@0412',db='kuberinventory'
         )
         if connection.is_connected():
             return connection
