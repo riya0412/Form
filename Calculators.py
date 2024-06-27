@@ -69,7 +69,7 @@ def SizeCalculatorinches():
     st.header("Results")
 
     results = {
-        "Parameter": ["Diameter (inches)", "Diameter (mm)", "Radius (mm)", "Cross Sectional Area", "CSA (suggested)", "Percentage", "Cost (in ₹)","Supply Cost (in ₹)","Manufacturing Cost (in ₹)"],
+        "Parameter": ["Diameter (inches)", "Diameter (mm)", "Radius (mm)", "Cross Sectional Area(mm²)", "CSA (suggested)(mm²)", "Percentage", "Cost (in ₹)","Supply Cost (in ₹)","Manufacturing Cost (in ₹)"],
         "Aluminium": [diam_aluminium_inches, diam_aluminium_mm, radius_aluminium_mm, csa_aluminium, suggested_csa_aluminium, percentage_aluminium, cost_aluminium, supplycost_al,Manf_al],
         "Steel": [diam_steel_inches, diam_steel_mm, radius_steel_mm, csa_steel, suggested_csa_steel, percentage_steel, cost_steel, supplycost_steel,Manf_steel]
     }
@@ -79,7 +79,7 @@ def SizeCalculatorinches():
     st.table(results_df)
 
     total_suggested_csa_result = pd.DataFrame({
-        "Total Suggested CSA": [total_suggested_csa],
+        "Total Suggested CSA(mm²)": [total_suggested_csa],
         "Total Cost (in ₹)": [cost_aluminium + cost_steel],
         "Total Suuply Cost (in ₹) Atleast": [supplycost_al+supplycost_steel],
         "Total Manufacturing Cost (in ₹) Atleast": [Manf_al+Manf_steel],
@@ -157,7 +157,7 @@ def SizeCalculatorMM():
     st.header("Results")
 
     results = {
-        "Parameter": [ "Diameter (mm)","Diameter (inches)", "Radius (mm)", "Cross Sectional Area", "CSA (suggested)", "Percentage", "Cost (in ₹)","Supply Cost (in ₹)","Manufacturing Cost (in ₹)"],
+        "Parameter": [ "Diameter (mm)","Diameter (inches)", "Radius (mm)", "Cross Sectional Area(mm²)", "CSA (suggested)(mm²)", "Percentage", "Cost (in ₹)","Supply Cost (in ₹)","Manufacturing Cost (in ₹)"],
         "Aluminium": [ diam_aluminium_mm,diam_aluminium_inches, radius_aluminium_mm, csa_aluminium, suggested_csa_aluminium, percentage_aluminium, cost_aluminium, supplycost_al,Manf_al],
         "Steel": [ diam_steel_mm,diam_steel_inches, radius_steel_mm, csa_steel, suggested_csa_steel, percentage_steel, cost_steel, supplycost_steel,Manf_steel]
     }
@@ -167,7 +167,7 @@ def SizeCalculatorMM():
     st.table(results_df)
 
     total_suggested_csa_result = pd.DataFrame({
-        "Total Suggested CSA": [total_suggested_csa],
+        "Total Suggested CSA(mm²)": [total_suggested_csa],
         "Total Cost (in ₹)": [cost_aluminium + cost_steel],
         "Total Suuply Cost (in ₹) Atleast": [supplycost_al+supplycost_steel],
         "Total Manufacturing Cost (in ₹) Atleast": [Manf_al+Manf_steel],
@@ -223,8 +223,8 @@ def SWG_to_DA():
         "SWG Value": [SWG],
         "Diameter(inches)": [Diameter_inches],
         "Diameter(mm)" : [Diameter_mm],
-        "Area(inches2)":[3.14159 * ((float(Diameter_inches)/2) ** 2)],
-        "Area(mm2)":[3.14159 * ((Diameter_mm/2) ** 2)],
+        "Area(inches²)":[3.14159 * ((float(Diameter_inches)/2) ** 2)],
+        "Area(mm²)":[3.14159 * ((Diameter_mm/2) ** 2)],
         "Area(kcmil)":[(float(Diameter_inches)**2)*1000]
     })
     
