@@ -28,6 +28,10 @@ in_time = st.sidebar.time_input("In Time")
 out_time = st.sidebar.time_input("Out Time")
 submit = st.sidebar.button("Submit Attendance")
 
+st.subheader("Sample format of Biometric Attendance Sheet")
+sheet=pd.read_excel('Sample attendance sheet.xlsx')
+st.dataframe(sheet)
+
 # File uploader for Excel file
 uploaded_file = st.file_uploader("Biometric Attendance Sheet Excel", type=["xlsx"])
 
